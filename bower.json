@@ -1,6 +1,6 @@
 {
-  "name": "kalendar",
-  "description": "A browser based calendar",
+  "name": "IOTStateSync",
+  "description": "Maintain state on a IOT device across the internet allow clients to make updates to this state",
   "main": "dist/kalendar.js",
   "authors": [
     "amman.vedi@gmail.com"

@@ -3,13 +3,13 @@ module.exports = {
     "allowUnknownTags": true
   },
   "opts": {
-    "destination": "./docs/developer"
+    "destination": "./docs/developer/server"
   },
   "plugins": [
     "plugins/markdown"
   ],
   "templates": {
-    "systemName": "Fylters",
+    "systemName": "IOTStateSync Client",
     "cleverLinks": false,
     "monospaceLinks": false,
     "default": {

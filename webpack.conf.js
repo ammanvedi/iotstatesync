@@ -1,8 +1,8 @@
 module.exports = {
   output: {
-      filename: 'kalendar.js',
-      library: 'kalendar',
-      libraryTarget: 'var'
+      filename: 'iotstatesync.js',
+      library: 'IOTStateSync',
+      libraryTarget: 'window'
   },
   devtool: 'eval-source-map',
   watch: false,

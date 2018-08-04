@@ -14,13 +14,23 @@ const CONFIG = {
     testRoot: './test/'
 }
 
-gulp.task( 'serve:docs', function() {
-    gulp.src( CONFIG.docRoot )
+gulp.task( 'serve:docs:client', function() {
+    gulp.src( path.join( CONFIG.docRoot, 'client' ) )
         .pipe( webserver( {
             livereload: true,
             directoryListing: false,
             open: true,
             port: 9001
+        } ) );
+} );
+
+gulp.task( 'serve:docs:server', function() {
+    gulp.src( path.join( CONFIG.docRoot, 'server' ) )
+        .pipe( webserver( {
+            livereload: true,
+            directoryListing: false,
+            open: true,
+            port: 9009
         } ) );
 } );
 
@@ -45,37 +55,40 @@ gulp.task( 'serve:tests', function() {
         } ) );
 } );
 
-gulp.task( 'js', function() {
-    return gulp.src('./lib/js/Index.js')
+gulp.task( 'js-client', function() {
+    return gulp.src('./lib/client/js/Index.js')
       .pipe(webpack( require( './webpack.conf.js' ) ))
-      .pipe(gulp.dest('dist/'))
+      .pipe(gulp.dest('dist/client/'))
       .pipe(gulp.dest('docs/js/'))
 } );
 
-gulp.task( 'sass', function() {
-    return gulp.src( './lib/style/style.scss' )
-        .pipe( sass() )
-        .pipe( rename( 'kalendar.css' ) )
-        .pipe( gulp.dest( 'dist' ) )
-        .pipe( gulp.dest( 'docs/styles' ) )
+gulp.task( 'js-server', function() {
+    return gulp.src( './lib/server/js/**/*.js' )
+        .pipe( gulp.dest( 'dist/server/' ) );
+} )
+
+gulp.task( 'docs-client', function( cb ) {
+    gulp.src( [ 'readme.md', './lib/client/js/**/*.js' ], { read: false } )
+        .pipe( jsdoc( require('./jsdoc.client.conf.js'), cb ) );
 } );
 
-gulp.task( 'docs', function( cb ) {
-    gulp.src( [ 'readme.md', './lib/js/**/*.js' ], { read: false } )
-        .pipe( jsdoc( require('./jsdoc.conf.js'), cb ) );
+gulp.task( 'docs-server', function( cb ) {
+    gulp.src( [ 'readme.md', './lib/server/js/**/*.js' ], { read: false } )
+        .pipe( jsdoc( require('./jsdoc.server.conf.js'), cb ) );
+} );
+
+gulp.task( 'docs-server', function( cb ) {
+    gulp.src( [ 'readme.md', './lib/server/js/**/*.js' ], { read: false } )
+        .pipe( jsdoc( require('./jsdoc.server.conf.js'), cb ) );
 } );
 
 gulp.task( 'watch:js', function() {
-    gulp.watch( './lib/**/*.js', [ 'js', 'docs' ] );
-} );
-
-gulp.task( 'watch:css', function() {
-    gulp.watch( './lib/style/**/*.scss', [ 'sass' ] );
+    gulp.watch( './lib/**/*.js', [ 'js-client', 'js-server', 'docs-client', 'docs-server' ] );
 } );
 
 
 gulp.task( 'watch', function() {
-    return runSequence( [ 'default', 'serve:tests', 'serve:docs', 'serve:pages' ], [ 'watch:js', 'watch:css' ] )
+    return runSequence( [ 'default', 'serve:tests', 'serve:docs:client', 'serve:docs:server', 'serve:pages' ], [ 'watch:js' ] )
 } );
 
-gulp.task( 'default', [ 'js', 'sass', 'docs' ] );
+gulp.task( 'default', [ 'js-client', 'js-server', 'docs-client', 'docs-server' ] );
