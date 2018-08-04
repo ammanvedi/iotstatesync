@@ -7,12 +7,18 @@ const rename = require( 'gulp-rename' );
 const jsdoc = require('gulp-jsdoc3');
 const webserver = require('gulp-webserver');
 const runSequence = require('run-sequence');
+const run = require('gulp-run');
 
 const CONFIG = {
     docRoot: './docs/developer/',
     pagesRoot: './docs/',
     testRoot: './test/'
 }
+
+gulp.task('run-tests', function() {
+  return run('npm test').exec()
+    .pipe(gulp.dest('./test/out'))
+})
 
 gulp.task( 'serve:docs:client', function() {
     gulp.src( path.join( CONFIG.docRoot, 'client' ) )
@@ -83,12 +89,12 @@ gulp.task( 'docs-server', function( cb ) {
 } );
 
 gulp.task( 'watch:js', function() {
-    gulp.watch( './lib/**/*.js', [ 'js-client', 'js-server', 'docs-client', 'docs-server' ] );
+    gulp.watch( './lib/**/*.js', [ 'js-client', 'js-server', 'run-tests' ] );
 } );
 
 
 gulp.task( 'watch', function() {
-    return runSequence( [ 'default', 'serve:tests', 'serve:docs:client', 'serve:docs:server', 'serve:pages' ], [ 'watch:js' ] )
+    return runSequence( 'watch:js' );
 } );
 
-gulp.task( 'default', [ 'js-client', 'js-server', 'docs-client', 'docs-server' ] );
+gulp.task( 'default', [ 'js-client', 'js-server', 'docs-client', 'docs-server', 'serve:tests', 'serve:docs:client', 'serve:docs:server', 'serve:pages' ] );
