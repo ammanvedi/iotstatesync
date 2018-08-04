@@ -1,0 +1,39 @@
+{
+  "name": "kalendar",
+  "description": "A browser based calendar",
+  "main": "dist/kalendar.js",
+  "authors": [
+    "amman.vedi@gmail.com"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "filters",
+    "filtering",
+    "dependencies",
+    "api",
+    "select",
+    "dropdowns",
+    "group"
+  ],
+  "homepage": "https://github.com/ammanvedi/kalendar",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "gulpfile.js",
+    "webpack.conf.js",
+    "todo.txt",
+    "readme.md",
+    "package.json",
+    "package-lock.json",
+    "jsdoc.conf.js",
+    ".travis.yml",
+    "lib",
+    "lambda",
+    "docs",
+    "LICENCE.txt",
+    "doc-resources/"
+  ]
+}
