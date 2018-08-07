@@ -17,7 +17,6 @@ const CONFIG = {
 
 gulp.task('run-tests', function() {
   return run('npm test').exec()
-    .pipe(gulp.dest('./test/out'))
 })
 
 gulp.task( 'serve:docs:client', function() {
@@ -89,12 +88,12 @@ gulp.task( 'docs-server', function( cb ) {
 } );
 
 gulp.task( 'watch:js', function() {
-    gulp.watch( './lib/**/*.js', [ 'js-client', 'js-server', 'run-tests' ] );
+    gulp.watch( [ './lib/**/*', './test/**/*.js' ], [ 'onwatch' ] );
 } );
 
 
-gulp.task( 'watch', function() {
-    return runSequence( 'watch:js' );
+gulp.task( 'onwatch', function() {
+    return runSequence( 'js-client', 'js-server', 'run-tests' );
 } );
 
 gulp.task( 'default', [ 'js-client', 'js-server', 'docs-client', 'docs-server', 'serve:tests', 'serve:docs:client', 'serve:docs:server', 'serve:pages' ] );
