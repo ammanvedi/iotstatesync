@@ -1,5 +1,4 @@
-console.log( 'server started' );
-
-setTimeout( function() {
-    console.log( 'server set up' );
-}, 1000 );
+module.exports = {
+    SyncStateManager: require( './lib/SyncStateManager.js' ),
+    DeviceSyncStateManager: require( './lib/DeviceSyncStateManager.js' )
+};
